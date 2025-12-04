@@ -9,7 +9,8 @@ export const callApi = async (url, body, method = "POST") => {
 
   try {
     const response = await axios({
-      url: "https://task-back-api.onrender.com/" + url,
+      // url: "https://task-back-api.onrender.com/" + url,
+      url: "https://task-back-api.vercel.app/" + url,
       data: body,
       headers: headers,
       method: method,

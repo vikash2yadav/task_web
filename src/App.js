@@ -15,25 +15,35 @@ const App = () => {
   const allow_path = ['/', '/change-password'];
   const isAuthorized = localStorage.getItem("token");
 
-  useEffect(() => {
-    if (isAuthorized) {
-      if (allow_path.includes(pathname)) {
-        navigate("/dashboard")
-      }
-    } else if (!allow_path.includes(pathname)) {
+  // useEffect(() => {
+  //   if (isAuthorized) {
+  //     if (allow_path.includes(pathname)) {
+  //       navigate("/dashboard")
+  //     }
+  //   } else if (!allow_path.includes(pathname)) {
+  //     navigate('/');
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+    useEffect(() => {
+    if (!isAuthorized && !allow_path.includes(pathname)) {
       navigate('/');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    if (isAuthorized && allow_path.includes(pathname)) {
+      navigate('/dashboard');
+    }
+  }, [isAuthorized, pathname, navigate]);
 
   return (
     <>
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/change-password" element={<ChangePassword />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/*" element={<NotFound />}></Route>
+          <Route path="/" element={<Login />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster position="top-right" reverseOrder={false} />
       </Suspense>
